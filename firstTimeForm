@@ -1,0 +1,28 @@
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+
+
+
+const ownerIdToFind = wixUsers.currentUser.id; 
+// const ownerIdToFind = "1"; //test user does not exist 
+//const ownerIdToFind = "fcf6c4a4-adf6-46b0-b374-d514675f04de"; //test user exists
+
+
+wixData.query("contact025")
+  .find()
+  .then((results) => {
+    const items = results.items;
+    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
+    if (itemWithOwnerId) {
+	  console.log("Found item with ownerId:", ownerIdToFind);
+	  $w('#form14').hide();
+	  $w('#text50').show();
+	} else {
+	  console.log("No item found with ownerId:", ownerIdToFind);
+	  $w('#form14').show();
+	  $w('#text50').hide();
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
