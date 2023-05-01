@@ -1,0 +1,90 @@
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+
+const weeksData = [
+  { week: 0, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
+  { week: 1, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
+  { week: 2, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
+  { week: 3, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
+  { week: 4, imageUrl: "https://static.wixstatic.com/media/c33f09_84c9ebaada404887bc561590cc45592c~mv2.png",text: "https://static.wixstatic.com/media/c33f09_32aec2a40d4f473c8823ff655d5b19dd~mv2.png"},
+  { week: 5, imageUrl: "https://static.wixstatic.com/media/c33f09_c78c687dfe3e478db3848a352d808585~mv2.png",text: "https://static.wixstatic.com/media/c33f09_5d513bc3d7eb43dbae7f80f2c904245c~mv2.png"},
+  { week: 6, imageUrl: "https://static.wixstatic.com/media/c33f09_9625e564e1cc48e2865af45c6f462f58~mv2.png",text: "https://static.wixstatic.com/media/c33f09_d2f1d4d5159c4f1f843289999b3751d3~mv2.png"},
+  { week: 7, imageUrl: "https://static.wixstatic.com/media/c33f09_d8d5b29646ca4aa4995fd2c1128d8f52~mv2.png",text: "https://static.wixstatic.com/media/c33f09_e9047a969eac4131b6b454f65e4c065c~mv2.png"},
+  { week: 8, imageUrl: "https://static.wixstatic.com/media/c33f09_90657fe103a44584bea4ffe2b7f8e1ed~mv2.png",text: "https://static.wixstatic.com/media/c33f09_356c602b27cc43399c7a1b703c4e9c2d~mv2.png"},
+  { week: 9, imageUrl: "https://static.wixstatic.com/media/c33f09_83a370ab01274e1e93e08ea9c6c7044f~mv2.png",text: "https://static.wixstatic.com/media/c33f09_915e0ac926ee457287d4fd25d539a391~mv2.png"},
+  { week: 10, imageUrl: "https://static.wixstatic.com/media/c33f09_73fd2c1a1a1049bc9260d046592f799f~mv2.png",text: "https://static.wixstatic.com/media/c33f09_5f77f8e5f29d45d0973111bbaac0a51b~mv2.png"},
+  { week: 11, imageUrl: "https://static.wixstatic.com/media/c33f09_77bc46967a2b494d80d23517451d039a~mv2.png",text: "https://static.wixstatic.com/media/c33f09_822c7f88c62c4024801ae3c2cd4be9f2~mv2.png"},
+  { week: 12, imageUrl: "https://static.wixstatic.com/media/c33f09_a7a508fc35514884a8e8ba76d09b863a~mv2.png",text: "https://static.wixstatic.com/media/c33f09_9ae2ee6c063643a3bd5f7f73ab420499~mv2.png"},
+  { week: 13, imageUrl: "https://static.wixstatic.com/media/c33f09_ff8071b397ea4c998460204e6b660dfb~mv2.png",text: "https://static.wixstatic.com/media/c33f09_cb4ff1f8e2aa4d999955e78bf6a39949~mv2.png"},
+  { week: 14, imageUrl: "https://static.wixstatic.com/media/c33f09_f38e8855e7394a45868d4b6c413edb2f~mv2.png",text: "https://static.wixstatic.com/media/c33f09_50a00102a4e942238b2bcea5afe37901~mv2.png"},
+  { week: 15, imageUrl: "https://static.wixstatic.com/media/c33f09_5f3ee88e5425416e8e1399bff9239a4c~mv2.png",text: "https://static.wixstatic.com/media/c33f09_94bb5bae037b4d2fa45c1e35017b2a3d~mv2.png"},
+  { week: 16, imageUrl: "https://static.wixstatic.com/media/c33f09_3934aa766d8c4c22992f3c27e87c788e~mv2.png",text: "https://static.wixstatic.com/media/c33f09_55aab83109154459961fd5219ee359a8~mv2.png"},
+  { week: 17, imageUrl: "https://static.wixstatic.com/media/c33f09_87aee87a5d9c4756a18594d2ae5bd571~mv2.png",text: "https://static.wixstatic.com/media/c33f09_88bcf4e1ad044d36bc4c98845981887e~mv2.png"},
+  { week: 18, imageUrl: "https://static.wixstatic.com/media/c33f09_d2310a4e49af4cb8b35196a1787e51a8~mv2.png",text: "https://static.wixstatic.com/media/c33f09_3505a459af8b4533a64e8093d2daa1e3~mv2.png"},
+  { week: 19, imageUrl: "https://static.wixstatic.com/media/c33f09_171283a50d074824b9184589dc73a281~mv2.png",text: "https://static.wixstatic.com/media/c33f09_bc2da691d70b41efbb5cc80b90934a1f~mv2.png"},
+  { week: 20, imageUrl: "https://static.wixstatic.com/media/c33f09_33d69876ec8a47a8ae1db2b09967dba8~mv2.png",text: "https://static.wixstatic.com/media/c33f09_a03eed431de444c49f84999668bdcb9d~mv2.png"},
+  { week: 21, imageUrl: "https://static.wixstatic.com/media/c33f09_50cd1621dc804ecca5faa4e587dcd9fd~mv2.png",text: "https://static.wixstatic.com/media/c33f09_510e220edfba40f7ab16373dbe4e3dfc~mv2.png"},
+  { week: 22, imageUrl: "https://static.wixstatic.com/media/c33f09_8ec577c3aa1a4ae29fc968d0bc0baa1e~mv2.png",text: "https://static.wixstatic.com/media/c33f09_1dbc69f9f6dc435896008720a707edad~mv2.png"},
+  { week: 23, imageUrl: "https://static.wixstatic.com/media/c33f09_ce9ed10116194a53aca7d814e5847a55~mv2.png",text: "https://static.wixstatic.com/media/c33f09_3aea012e0bf64c42b65b6c4e7caefcf2~mv2.png"},
+  { week: 24, imageUrl: "https://static.wixstatic.com/media/c33f09_73236adef0de4d7294020d355f4b12ab~mv2.png",text: "https://static.wixstatic.com/media/c33f09_af60cc428910474d8596bacaf5d7caf0~mv2.png"},
+  { week: 25, imageUrl: "https://static.wixstatic.com/media/c33f09_5facb60c82c24f54801c9bd54c4eec56~mv2.png",text: "https://static.wixstatic.com/media/c33f09_cc2e798fa7b64d09aa948442265e0ec7~mv2.png"},
+  { week: 26, imageUrl: "https://static.wixstatic.com/media/c33f09_6564adaf9d3f4ebfbdf8a6aa91e378fe~mv2.png",text: "https://static.wixstatic.com/media/c33f09_45db2008b0df4fdba7f17266c85d93aa~mv2.png"},
+  { week: 27, imageUrl: "https://static.wixstatic.com/media/c33f09_5cf03cb26ffc40ba9146c9f6d913324a~mv2.png",text: "https://static.wixstatic.com/media/c33f09_a651c91984b44956a921ee861722b294~mv2.png"},
+  { week: 28, imageUrl: "https://static.wixstatic.com/media/c33f09_39f84a7df83b4e7fb7d6661e6aea2e1d~mv2.png",text: "https://static.wixstatic.com/media/c33f09_a1364cbbaa0b4e0d8dda8a3ca765ef87~mv2.png"},
+  { week: 29, imageUrl: "https://static.wixstatic.com/media/c33f09_201139b6d1754cdf93345f96ee813cd9~mv2.png",text: "https://static.wixstatic.com/media/c33f09_d61c08561b674670b04fc1d4bb948eba~mv2.png"},
+  { week: 30, imageUrl: "https://static.wixstatic.com/media/c33f09_01d24608ccb149aaaeac29ea32a790c1~mv2.png",text: "https://static.wixstatic.com/media/c33f09_799cb36f977d4f7ea99a1bd38233df9e~mv2.png"},
+  { week: 31, imageUrl: "https://static.wixstatic.com/media/c33f09_c2bf9ffdd51641d9a504fbaa2f0baf22~mv2.png",text: "https://static.wixstatic.com/media/c33f09_5e1d108a52f34d4880ed0ec03ba15296~mv2.png"},
+  { week: 32, imageUrl: "https://static.wixstatic.com/media/c33f09_00209d1552f74b7192eb8634637ac176~mv2.png",text: "https://static.wixstatic.com/media/c33f09_d17ae5935d334345b36f66d761cc81d1~mv2.png"},
+  { week: 33, imageUrl: "https://static.wixstatic.com/media/c33f09_a66cfed2f5bc46c69544935c11557552~mv2.png",text: "https://static.wixstatic.com/media/c33f09_5f14ac9da1e149d68d582c9848a12dc6~mv2.png"},
+  { week: 34, imageUrl: "https://static.wixstatic.com/media/c33f09_dfe00e704a9a47c890a7e9414337fcfa~mv2.png",text: "https://static.wixstatic.com/media/c33f09_b6cda019027644ec9ae5f021f5658c9b~mv2.png"},
+  { week: 35, imageUrl: "https://static.wixstatic.com/media/c33f09_1223ce2a18f344f0b015193a11ef73fc~mv2.png",text: "https://static.wixstatic.com/media/c33f09_335b4657f9564e9b865dffc56aa3035e~mv2.png"},
+  { week: 36, imageUrl: "https://static.wixstatic.com/media/c33f09_cd80c0f6667a4a3b875ba87eaabb1acc~mv2.png",text: "https://static.wixstatic.com/media/c33f09_6ec8a31937434ee58d1a466504a4d75d~mv2.png"},
+  { week: 37, imageUrl: "https://static.wixstatic.com/media/c33f09_f74cdd18f03e44a88bd186d10ba013dd~mv2.png",text: "https://static.wixstatic.com/media/c33f09_d1cb99bc10164af19a77045332f2feae~mv2.png"},
+  { week: 38, imageUrl: "https://static.wixstatic.com/media/c33f09_d53ec0b18cad48899f3156764ebe9696~mv2.png",text: "https://static.wixstatic.com/media/c33f09_b5bdd3c8582c446dbe9f1a60505c05c5~mv2.png"},
+  { week: 39, imageUrl: "https://static.wixstatic.com/media/c33f09_6cd3afcd53f244b7be2e3bd22a710f31~mv2.png",text: "https://static.wixstatic.com/media/c33f09_d66dc3755e904070b7ad970c01296c02~mv2.png"},
+  { week: 40, imageUrl: "https://static.wixstatic.com/media/c33f09_d1cb900380264ca38c8353bd2087c6a4~mv2.png",text: "https://static.wixstatic.com/media/c33f09_9cdff81c62114c288a1075c649897396~mv2.png"}
+  ];
+  
+const ownerIdToFind = wixUsers.currentUser.id; 
+//const ownerIdToFind = "fcf6c4a4-adf6-46b0-b374-d514675f04de"; //test user
+
+wixData.query("contact025")
+  .find()
+  .then((results) => {
+    const items = results.items;
+    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
+    if (itemWithOwnerId) {
+      console.log("Found item with ownerId:", ownerIdToFind);
+      // console.log( itemWithOwnerId); (to check the names of the fields)
+
+      let pregWeek = itemWithOwnerId.numberField;
+      let createdDate = itemWithOwnerId._createdDate;
+      let today = new Date();
+
+      let diff = (today.getTime() - createdDate.getTime());
+      let TotalDays = Math.ceil(diff / (1000 * 3600 * 24)); // in order to change to weeks we need to divide the TotalDays by 7
+      // $w('#text11').text = (pregWeek + TotalDays).toString();
+      let combinedWeeks =  pregWeek + TotalDays  ;
+      if (combinedWeeks >= 40) {
+        combinedWeeks = 40;
+      }
+      if (combinedWeeks <= 0) {
+        combinedWeeks = 0;
+      }
+      $w('#progressBar1').value = combinedWeeks; 
+      $w('#text14').text = "היי חברה! איזה כיף, את כבר בשבוע : " + combinedWeeks.toString();
+      $w('#text16').text = "השבוע, התינוק שלך בגודל/אורך של : "
+      $w('#text17').text = "קצת מידע רלוונטי לגבי שבוע ההריון שאת נמצאת בו...  "
+
+      // all the weeks with the baby sizes by fruits
+      $w("#image3").src = weeksData[combinedWeeks].imageUrl;
+      $w("#image4").src = weeksData[combinedWeeks].text;
+
+      
+    } else {
+      console.log("No item found with ownerId:", ownerIdToFind);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
