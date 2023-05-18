@@ -1,1 +1,45 @@
-placeholder
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+import wixWindow from 'wix-window';
+
+//const ownerIdToFind = wixUsers.currentUser.id; 
+ //const ownerIdToFind = "1"; //test user does not exist 
+const ownerIdToFind = "957d33e9-f0b7-4ad7-bb88-4416b1b38811"; //test user exists
+
+wixData.query("contact026")
+  .find()
+  .then((results) => {
+    const items = results.items;
+    const itemsWithOwnerId = items.filter(item => item._owner === ownerIdToFind);
+    console.log(itemsWithOwnerId)
+    const sortedList = itemsWithOwnerId.sort((a, b) => parseInt(b._updatedDate) - parseInt(a._updatedDate));
+    const itemWithOwnerId = sortedList[0];
+    console.log(itemWithOwnerId);
+        if (itemWithOwnerId) {
+      let createdDate = itemWithOwnerId._createdDate;
+      const today = new Date();
+      $w('#text11').hide();
+
+
+      //const oneWeekAgo = new Date();
+      //oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+const sevenDaysAgo = new Date(); // Create a new date object
+
+sevenDaysAgo.setDate(today.getDate() - 7); // Subtract 7 days from today's date
+      
+      if (createdDate >= sevenDaysAgo) {
+        const allowedDate = createdDate
+        allowedDate.setDate(allowedDate.getDate() + 7)
+        $w('#text11').text = "היי חברה, כבר מילאת את השאלון השבוע, פעם הבאה שתוכלי למלא היא: \n" + allowedDate
+        console.log("היי חברה, כבר מילאת את השאלון השבוע, פעם הבאה שתוכלי למלא היא :", allowedDate);
+        $w('#form14').hide();
+        $w('#text11').show();
+      } else {
+        console.log("Form submission is allowed.");
+        $w('#form14').show();
+      }
+    } 
+  })
+  .catch((error) => {
+    console.log(error);
+  });
