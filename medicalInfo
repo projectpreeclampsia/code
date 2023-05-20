@@ -1,1 +1,60 @@
-placeholder
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+
+
+
+const ownerIdToFind = wixUsers.currentUser.id; 
+
+// Query for "contact023" collection
+wixData.query("contact023")
+  .find()
+  .then((results) => {
+    const items = results.items;
+
+    // Find item with matching _owner field value
+    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
+
+    if (itemWithOwnerId) {
+      console.log("Found item with ownerId:", ownerIdToFind);
+      
+      // Hide form14 and show text54 if a matching item is found
+      $w('#form14').hide();
+      $w('#text54').show();
+    } else {
+      console.log("No item found with ownerId:", ownerIdToFind);
+      
+      // Show form14 and hide text54 if no matching item is found
+      $w('#form14').show();
+      $w('#text54').hide();
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+// Query for "contact024" collection
+wixData.query("contact024")
+  .find()
+  .then((results) => {
+    const items = results.items;
+
+    // Find item with matching _owner field value
+    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
+
+    if (itemWithOwnerId) {
+      console.log("Found item with ownerId:", ownerIdToFind);
+      
+      // Hide form15 and show text54 if a matching item is found
+      $w('#form15').hide();
+      $w('#text54').show();
+    } else {
+      console.log("No item found with ownerId:", ownerIdToFind);
+      
+      // Show form15 and hide text54 if no matching item is found
+      $w('#form15').show();
+      $w('#text54').hide();
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
