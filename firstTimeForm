@@ -1,28 +1,23 @@
-import wixData from 'wix-data';
-import wixUsers from 'wix-users';
+import wixData from 'wix-data'; // Importing the wixData module for database operations
+import wixUsers from 'wix-users'; // Importing the wixUsers module for user-related operations
 
+const ownerIdToFind = wixUsers.currentUser.id; // Getting the current user's ID
 
-
-const ownerIdToFind = wixUsers.currentUser.id; 
-// const ownerIdToFind = "1"; //test user does not exist 
-//const ownerIdToFind = "fcf6c4a4-adf6-46b0-b374-d514675f04de"; //test user exists
-
-
-wixData.query("contact025")
-  .find()
+wixData.query("contact025") // Creating a query for the "contact025" collection, "contact025" stores the first time form responses
+  .find() // Executing the query and retrieving the results
   .then((results) => {
-    const items = results.items;
-    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
+    const items = results.items; // Storing the items from the query results
+    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind); // Finding an item with matching owner ID
     if (itemWithOwnerId) {
-	  console.log("Found item with ownerId:", ownerIdToFind);
-	  $w('#form14').hide();
-	  $w('#text50').show();
+	  console.log("Found item with ownerId:", ownerIdToFind); // Printing a message to the console
+	  $w('#form14').hide(); // Hiding the element with the ID 'form14'
+	  $w('#text50').show(); // Showing the element with the ID 'text50'
 	} else {
-	  console.log("No item found with ownerId:", ownerIdToFind);
-	  $w('#form14').show();
-	  $w('#text50').hide();
+	  console.log("No item found with ownerId:", ownerIdToFind); // Printing a message to the console
+	  $w('#form14').show(); // Showing the element with the ID 'form14'
+	  $w('#text50').hide(); // Hiding the element with the ID 'text50'
     }
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error); // Printing an error message to the console if an error occurs
   });
