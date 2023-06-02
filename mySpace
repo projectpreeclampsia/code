@@ -1,9 +1,8 @@
-// Importing necessary modules
 import wixData from 'wix-data';
 import wixUsers from 'wix-users';
 import {session} from 'wix-storage';
+import wixLocation from 'wix-location';
 
-// Define an array of week data
 const weeksData = [
   { week: 0, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
   { week: 1, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
@@ -56,13 +55,14 @@ wixData.query("testEnd")
   .find()
   .then((results) => {
     const items = results.items;
-    
-    // Find item with matching _owner field value
     const clickTest = items.find(item => item._owner === ownerIdToFind);
-    // Hide section1 if a matching item is found
-        if (clickTest) {
+    session.setItem("id", clickTest._id);      
+    console.log(clickTest.status == 'Stopped')
+        if (clickTest.status == 'Stopped') {
             $w('#section1').hide();
         }
+        
+
   })
   .catch((error) => {
     console.log(error);
@@ -72,38 +72,30 @@ wixData.query("contact025")
   .find()
   .then((results) => {
     const items = results.items;
-    
-    // Find item with matching _owner field value
     const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
-    
     if (itemWithOwnerId) {
       console.log("Found item with ownerId:", ownerIdToFind);
 
       let pregWeek = itemWithOwnerId.numberField;
       let createdDate = itemWithOwnerId._createdDate;
       let today = new Date();
-      
-      // Calculate total weeks
+
       let diff = (today.getTime() - createdDate.getTime());
-      let TotalDays = Math.ceil(diff / (1000 * 3600 * 24 * 7)); // in order to change to weeks we need to divide the TotalDays by 7
+      let TotalDays = Math.floor(diff / (1000 * 3600 * 24 * 7)); // in order to change to weeks we need to divide the TotalDays by 7
       var combinedWeeks = pregWeek + TotalDays ;
-      
-      // Limit combined weeks to the range of 0-40
       if (combinedWeeks >= 40) {
         combinedWeeks = 40;
       }
       if (combinedWeeks <= 0) {
         combinedWeeks = 0;
       }
-    session.setItem("combinedWeeks", combinedWeeks); 
-    
-      // Update page elements with combined weeks and other information
+    session.setItem("combinedWeeks", combinedWeeks);      
       $w('#progressBar1').value = combinedWeeks; 
       $w('#text14').text = "היי חברה! איזה כיף, את כבר בשבוע : " + combinedWeeks.toString();
       $w('#text16').text = "השבוע, התינוק שלך בגודל/אורך של : "
       $w('#text17').text = "קצת מידע רלוונטי לגבי שבוע ההריון שאת נמצאת בו...  "
 
-      // Update images with the corresponding week's data
+      // all the weeks with the baby sizes by fruits
       $w("#image3").src = weeksData[combinedWeeks].imageUrl;
       $w("#image4").src = weeksData[combinedWeeks].text;
       $w("#image5").src = weeksData[combinedWeeks].text2;
@@ -119,13 +111,42 @@ wixData.query("contact025")
     console.log(error);
   });
   console.log(globalWeeks)
+  const textBoxValue = $w('#textBox1').value;
+
+    $w("#button4").onClick((event) => {
+      wixData.query("testEnd")
+  .find()
+  .then((results) => {
+    const items = results.items;
+    const clickTest = items.find(item => item._owner === ownerIdToFind);
+    session.setItem("id", clickTest._id);            
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  const textBoxValue = $w('#textBox1').value;
+    const updatedItem = { _id:session.getItem("id"), Text:'Clicked',week: session.getItem("combinedWeeks"), reason: $w('#textBox1').value, status: 'UnStopped'};
+    wixData.update("testEnd", updatedItem);
+    $w('#section1').show();
+    $w('#text19').hide();
+      wixLocation.to("/preeclampsia/myspace");
+           });
   $w("#button2").onClick( (event) => {
-      const textBoxValue = $w('#textBox1').value
-  const newItem = { Text:'Clicked',week: session.getItem("combinedWeeks"), reason: textBoxValue};
+  const newItem = { Text:'Clicked',week: session.getItem("combinedWeeks"), reason: $w('#textBox1').value, status: 'Stopped'};
   console.log(newItem)
     $w('#section1').hide();
     $w('#text19').text = "תודה שהשתתפת! מאחלות לך בהצלחה בהמשך" 
     $w('#text19').show();
 
     wixData.insert("testEnd", newItem)
-  });
+      wixLocation.to("/preeclampsia/myspace");
+$w("#button3").onClick((event) => {
+    $w('#section1').show();
+    $w('#text19').hide();
+    wixData.remove("testEnd", newItem._id)
+});
+  
+  }
+  );
+
+  
