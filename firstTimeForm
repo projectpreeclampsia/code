@@ -1,23 +1,59 @@
-import wixData from 'wix-data'; // Importing the wixData module for database operations
-import wixUsers from 'wix-users'; // Importing the wixUsers module for user-related operations
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+import {session} from 'wix-storage';
 
-const ownerIdToFind = wixUsers.currentUser.id; // Getting the current user's ID
 
-wixData.query("contact025") // Creating a query for the "contact025" collection, "contact025" stores the first time form responses
-  .find() // Executing the query and retrieving the results
+
+const ownerIdToFind = wixUsers.currentUser.id; 
+//const ownerIdToFind = "fcf6c4a4-adf6-46b0-b374-d514675f04de"; //test user exists
+
+var token = 0; 
+wixData.query("contact025")
+  .find()
   .then((results) => {
-    const items = results.items; // Storing the items from the query results
-    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind); // Finding an item with matching owner ID
+    const items = results.items;
+    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
     if (itemWithOwnerId) {
-	  console.log("Found item with ownerId:", ownerIdToFind); // Printing a message to the console
-	  $w('#form14').hide(); // Hiding the element with the ID 'form14'
-	  $w('#text50').show(); // Showing the element with the ID 'text50'
+   wixData.query("testEnd").find().then((results) => {
+            console.log(results)
+
+    const allResults = results.items;
+    const stoppedTest = allResults.find(allResults => allResults._owner === ownerIdToFind);
+        console.log(stoppedTest)
+            session.setItem("id", stoppedTest._id);
+        if (stoppedTest.status == 'Stopped') {
+        $w('#form14').show();
+	      $w('#text50').hide();
+        token = 1; 
+        }
+        
+
+  });
+  if(token == 0){
+	  console.log("Found item with ownerId:", ownerIdToFind);
+	  $w('#form14').hide();
+	  $w('#text50').show();}
 	} else {
-	  console.log("No item found with ownerId:", ownerIdToFind); // Printing a message to the console
-	  $w('#form14').show(); // Showing the element with the ID 'form14'
-	  $w('#text50').hide(); // Hiding the element with the ID 'text50'
+	  console.log("No item found with ownerId:", ownerIdToFind);
+	  $w('#form14').show();
+	  $w('#text50').hide();
     }
   })
   .catch((error) => {
-    console.log(error); // Printing an error message to the console if an error occurs
+    console.log(error);
   });
+
+
+  
+
+/**
+ *	Adds an event handler that fires when a visitor submits a Wix Form and it is successfully received by the server.
+ */
+export function section1form1_wixFormSubmitted() {
+	// This function was added from the Properties & Events panel. To learn more, visit http://wix.to/UcBnC-4
+	// Add your code for this event here: 
+    
+    const updatedItem = { _id:session.getItem("id"), status: 'UnStopped'};
+    wixData.update("testEnd", updatedItem);
+
+}
