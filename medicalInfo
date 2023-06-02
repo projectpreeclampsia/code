@@ -1,60 +1,81 @@
 import wixData from 'wix-data';
 import wixUsers from 'wix-users';
+import {session} from 'wix-storage';
 
 
 
 const ownerIdToFind = wixUsers.currentUser.id; 
+//const ownerIdToFind = "23793226-02f6-49a4-ba68-2e15907ab7a6"; //test user exists
 
-// Query for "contact023" collection
+var token = 0; 
 wixData.query("contact023")
   .find()
   .then((results) => {
     const items = results.items;
-
-    // Find item with matching _owner field value
     const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
-
     if (itemWithOwnerId) {
-      console.log("Found item with ownerId:", ownerIdToFind);
-      
-      // Hide form14 and show text54 if a matching item is found
-      $w('#form14').hide();
-      $w('#text54').show();
-    } else {
-      console.log("No item found with ownerId:", ownerIdToFind);
-      
-      // Show form14 and hide text54 if no matching item is found
-      $w('#form14').show();
-      $w('#text54').hide();
+   wixData.query("testEnd").find().then((results) => {
+            console.log(results)
+
+    const allResults = results.items;
+    const stoppedTest = allResults.find(allResults => allResults._owner === ownerIdToFind);
+        console.log(stoppedTest)
+            session.setItem("id", stoppedTest._id);
+        if (stoppedTest.status == 'Stopped') {
+        $w('#form14').show();
+	      $w('#text54').hide();
+        token = 1; 
+        }
+        
+
+  });
+  if(token == 0){
+	  console.log("Found item with ownerId:", ownerIdToFind);
+	  $w('#form14').hide();
+	  $w('#text54').show();}
+	} else {
+	  console.log("No item found with ownerId:", ownerIdToFind);
+	  $w('#form14').show();
+	  $w('#text54').hide();
     }
   })
   .catch((error) => {
     console.log(error);
   });
 
-// Query for "contact024" collection
+var token = 0; 
 wixData.query("contact024")
   .find()
   .then((results) => {
     const items = results.items;
-
-    // Find item with matching _owner field value
     const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
-
     if (itemWithOwnerId) {
-      console.log("Found item with ownerId:", ownerIdToFind);
-      
-      // Hide form15 and show text54 if a matching item is found
-      $w('#form15').hide();
-      $w('#text54').show();
-    } else {
-      console.log("No item found with ownerId:", ownerIdToFind);
-      
-      // Show form15 and hide text54 if no matching item is found
-      $w('#form15').show();
-      $w('#text54').hide();
+   wixData.query("testEnd").find().then((results) => {
+            console.log(results)
+
+    const allResults = results.items;
+    const stoppedTest = allResults.find(allResults => allResults._owner === ownerIdToFind);
+        console.log(stoppedTest)
+            session.setItem("id", stoppedTest._id);
+        if (stoppedTest.status == 'Stopped') {
+        $w('#form15').show();
+	      $w('#text54').hide();
+        token = 1; 
+        }
+        
+
+  });
+  if(token == 0){
+	  console.log("Found item with ownerId:", ownerIdToFind);
+	  $w('#form15').hide();
+	  $w('#text54').show();}
+	} else {
+	  console.log("No item found with ownerId:", ownerIdToFind);
+	  $w('#form15').show();
+	  $w('#text54').hide();
     }
   })
   .catch((error) => {
     console.log(error);
   });
+  
