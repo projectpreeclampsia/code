@@ -79,3 +79,43 @@ wixData.query("contact024")
     console.log(error);
   });
   
+$w.onReady(function () {
+  // Get references to the relevant input elements
+  const question1Input1 = $w("#radioGroup12");
+  const question1Input2 = $w("#radioGroup10");
+
+  const conditionalField11 = $w("#input2");
+  const conditionalField22 = $w("#input3");
+
+  // Hide the conditional fields initially
+  conditionalField11.hide();
+  conditionalField22.hide();
+
+  // Add an event handler for the input change event
+  question1Input1.onChange(() => {
+    // Check the value of the question1Input field
+    if (question1Input1.value === "yes") {
+      // Show the conditional fields if the condition is met
+      conditionalField11.show();
+    } else {
+      // Hide the conditional fields if the condition is not met
+      conditionalField11.hide();
+    }
+  }
+
+  );
+
+  // Add an event handler for the input change event
+  question1Input2.onChange(() => {
+    // Check the value of the question1Input field
+    if (question1Input2.value === "yes") {
+      // Show the conditional fields if the condition is met
+      conditionalField22.show();
+    } else {
+      // Hide the conditional fields if the condition is not met
+      conditionalField22.hide();
+    }
+  }
+
+  );
+});
