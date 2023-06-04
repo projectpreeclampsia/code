@@ -57,3 +57,31 @@ export function section1form1_wixFormSubmitted() {
     wixData.update("testEnd", updatedItem);
 
 }
+//function that hides the conditional fields - if you want to add additional questions to pop up after the user fills "no" you add a field of const conditionalField3 and so on
+$w.onReady(function () {
+  // Get a reference to the relevant input element
+  const question1Input = $w("#radioGroup1");
+  const conditionalField1 = $w("#input5");
+  const conditionalField2 = $w("#input11");
+
+
+  // Hide the conditional field initially
+  conditionalField1.hide();
+  conditionalField2.hide();
+
+  // Add an event handler for the input change event
+  question1Input.onChange(() => {
+    // Check the value of the question1Input field
+    if (question1Input.value === "no") {
+      // Show the conditional field if the condition is met
+      conditionalField1.show();
+      conditionalField2.show();
+
+    } else {
+      // Hide the conditional field if the condition is not met
+      conditionalField1.hide();
+      conditionalField2.hide();
+
+    }
+  });
+});
