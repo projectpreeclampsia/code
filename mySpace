@@ -60,6 +60,13 @@ wixData.query("testEnd")
     console.log(clickTest.status == 'Stopped')
         if (clickTest.status == 'Stopped') {
             $w('#section1').hide();
+            $w('#section2').show();
+    $w('#text19').text = "תודה שהשתתפת! מאחלות לך בהצלחה בהמשך" 
+    $w('#text19').show();
+    $w('#button4').show();
+    $w('#text20').show();
+    $w('#button5').show();
+    $w('#text21').show();
         }
         
 
@@ -91,9 +98,9 @@ wixData.query("contact025")
       }
     session.setItem("combinedWeeks", combinedWeeks);      
       $w('#progressBar1').value = combinedWeeks; 
-      $w('#text14').text = "היי חברה! איזה כיף, את כבר בשבוע : " + combinedWeeks.toString();
+      $w('#text14').text = "היי חברה! איזה כיף, את כבר בשבוע : " + combinedWeeks.toString();
       $w('#text16').text = "השבוע, התינוק שלך בגודל/אורך של : "
-      $w('#text17').text = "קצת מידע רלוונטי לגבי שבוע ההריון שאת נמצאת בו...  "
+      $w('#text17').text = "קצת מידע רלוונטי לגבי שבוע ההריון שאת נמצאת בו...  "
 
       // all the weeks with the baby sizes by fruits
       $w("#image3").src = weeksData[combinedWeeks].imageUrl;
@@ -129,6 +136,10 @@ wixData.query("contact025")
     wixData.update("testEnd", updatedItem);
     $w('#section1').show();
     $w('#text19').hide();
+        $w('#button4').hide();
+        $w('#button5').show();
+    $w('#text21').show();
+    $w('#text20').hide();
       wixLocation.to("/preeclampsia/myspace");
            });
   $w("#button2").onClick( (event) => {
@@ -137,16 +148,12 @@ wixData.query("contact025")
     $w('#section1').hide();
     $w('#text19').text = "תודה שהשתתפת! מאחלות לך בהצלחה בהמשך" 
     $w('#text19').show();
+    $w('#button4').show();
+    $w('#text20').show();
+    $w('#button5').show();
+    $w('#text21').show();
 
     wixData.insert("testEnd", newItem)
-      wixLocation.to("/preeclampsia/myspace");
-$w("#button3").onClick((event) => {
-    $w('#section1').show();
-    $w('#text19').hide();
-    wixData.remove("testEnd", newItem._id)
-});
-  
+      wixLocation.to("/preeclampsia/myspace");  
   }
   );
-
-  
