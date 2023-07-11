@@ -1,0 +1,32 @@
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+import {session} from 'wix-storage';
+
+export function table1_rowSelect(event) {
+    let rowData = event.rowData;
+    session.setItem("id", rowData._id);
+    console.log(session.getItem("id"));
+}
+
+export function button1_click(event) {
+let userId = session.getItem("id");
+console.log("clicked");
+const collectionNames = ['contact022', 'contact025', 'MedicalInfo', 'testEnd', 'contact026'];
+
+collectionNames.forEach(collectionName => {
+  wixData.query(collectionName)
+    .eq("_owner", userId)
+    .find()
+    .then((results) => {
+      const ids = [];
+      results.items.forEach(item => {
+        ids.push(item._id);
+      });
+      console.log(ids);
+      ids.forEach(id => {
+          console.log("Delete id: ", id);
+          wixData.remove(collectionName,id);
+      }); 
+    });
+    });
+}
