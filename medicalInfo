@@ -1,91 +1,15 @@
 import wixData from 'wix-data';
 import wixUsers from 'wix-users';
-import {session} from 'wix-storage';
+import { session } from 'wix-storage';
+import wixLocation from 'wix-location';
 
-
-
-const ownerIdToFind = wixUsers.currentUser.id; 
-//const ownerIdToFind = "23793226-02f6-49a4-ba68-2e15907ab7a6"; //test user exists
-
-var token = 0; 
-wixData.query("contact023")
-  .find()
-  .then((results) => {
-    const items = results.items;
-    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
-    if (itemWithOwnerId) {
-   wixData.query("testEnd").find().then((results) => {
-            console.log(results)
-
-    const allResults = results.items;
-    const stoppedTest = allResults.find(allResults => allResults._owner === ownerIdToFind);
-        console.log(stoppedTest)
-            session.setItem("id", stoppedTest._id);
-        if (stoppedTest.status == 'Stopped') {
-        $w('#form14').show();
-	      $w('#text54').hide();
-        token = 1; 
-        }
-        
-
-  });
-  if(token == 0){
-	  console.log("Found item with ownerId:", ownerIdToFind);
-	  $w('#form14').hide();
-	  $w('#text54').show();}
-	} else {
-	  console.log("No item found with ownerId:", ownerIdToFind);
-	  $w('#form14').show();
-	  $w('#text54').hide();
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-var token = 0; 
-wixData.query("contact024")
-  .find()
-  .then((results) => {
-    const items = results.items;
-    const itemWithOwnerId = items.find(item => item._owner === ownerIdToFind);
-    if (itemWithOwnerId) {
-   wixData.query("testEnd").find().then((results) => {
-            console.log(results)
-
-    const allResults = results.items;
-    const stoppedTest = allResults.find(allResults => allResults._owner === ownerIdToFind);
-        console.log(stoppedTest)
-            session.setItem("id", stoppedTest._id);
-        if (stoppedTest.status == 'Stopped') {
-        $w('#form15').show();
-	      $w('#text54').hide();
-        token = 1; 
-        }
-        
-
-  });
-  if(token == 0){
-	  console.log("Found item with ownerId:", ownerIdToFind);
-	  $w('#form15').hide();
-	  $w('#text54').show();}
-	} else {
-	  console.log("No item found with ownerId:", ownerIdToFind);
-	  $w('#form15').show();
-	  $w('#text54').hide();
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-  
 $w.onReady(function () {
   // Get references to the relevant input elements
-  const question1Input1 = $w("#radioGroup12");
-  const question1Input2 = $w("#radioGroup10");
+  const question1Input1 = $w("#radioGroup6");
+  const question1Input2 = $w("#radioGroup8");
 
-  const conditionalField11 = $w("#input2");
-  const conditionalField22 = $w("#input3");
+  const conditionalField11 = $w("#input1");
+  const conditionalField22 = $w("#input2");
 
   // Hide the conditional fields initially
   conditionalField11.hide();
@@ -94,28 +18,100 @@ $w.onReady(function () {
   // Add an event handler for the input change event
   question1Input1.onChange(() => {
     // Check the value of the question1Input field
-    if (question1Input1.value === "yes") {
+    if (question1Input1.value === "Yes") {
       // Show the conditional fields if the condition is met
       conditionalField11.show();
     } else {
       // Hide the conditional fields if the condition is not met
       conditionalField11.hide();
     }
-  }
-
-  );
+  });
 
   // Add an event handler for the input change event
   question1Input2.onChange(() => {
     // Check the value of the question1Input field
-    if (question1Input2.value === "yes") {
+    if (question1Input2.value === "Yes") {
       // Show the conditional fields if the condition is met
       conditionalField22.show();
     } else {
       // Hide the conditional fields if the condition is not met
       conditionalField22.hide();
     }
-  }
+  });
 
-  );
+  // Get references to the relevant input elements
+  const elementIdsToHide = [
+    '#radioGroup1',
+    '#radioGroup4',
+    '#radioGroup3',
+    '#radioGroup2',
+    '#radioGroup5',
+    '#radioGroup7',
+    '#radioGroup6',
+    '#input1',
+    '#radioGroup8',
+    '#input2',
+    '#input3',
+    '#radioGroup9',
+    '#radioGroup10',
+    '#Section1RegularTitle1',
+    '#text53',
+    '#button1'
+  ];
+
+  elementIdsToHide.forEach((elementId) => {
+    $w(elementId).hide();
+  });
+
+  const ownerIdToFind = wixUsers.currentUser.id;
+  wixData.query("MedicalInfo")
+    .eq("_owner", ownerIdToFind)
+    .find()
+    .then((results) => {
+      if (results.totalCount > 0) {
+        // Owner ID already exists in MedicalInfo collection, hide the elements
+        elementIdsToHide.forEach((elementId) => {
+          $w(elementId).hide();
+        });
+        $w('#text54').show();
+      } else {
+        // Owner ID does not exist in MedicalInfo collection, show the elements
+        elementIdsToHide.forEach((elementId) => {
+          $w(elementId).show();
+        });
+        $w('#text54').hide();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+$w("#button1").onClick((event) => {
+  const updatedItem = {
+    _id: session.getItem("id"),
+    preclampsia: $w('#radioGroup1').value,
+    pills: $w('#radioGroup4').value,
+    autoimune: $w('#radioGroup3').value,
+    kidney: $w('#radioGroup2').value,
+    diabetes: $w('#radioGroup5').value,
+    bloodpres: $w('#radioGroup7').value,
+    vitamins: $w('#radioGroup6').value,
+    whichvitamins: $w('#input1').value,
+    treatment: $w('#radioGroup8').value,
+    whichtreatment: $w('#input2').value,
+    medicines: $w('#input3').value,
+    diet: $w('#radioGroup9').value,
+    vaccine: $w('#radioGroup10').value
+  };
+
+  console.log(updatedItem);
+
+  wixData.insert("MedicalInfo", updatedItem)
+    .then(() => {
+      wixLocation.to("/preeclampsia/newpage");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
