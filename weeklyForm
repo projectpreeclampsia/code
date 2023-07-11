@@ -1,41 +1,82 @@
-import wixData from 'wix-data'; // Importing the wixData module for database operations
-import wixUsers from 'wix-users'; // Importing the wixUsers module for user-related operations
-import wixWindow from 'wix-window'; // Importing the wixWindow module for window-related operations
+import wixData from 'wix-data';
+import wixUsers from 'wix-users';
+import wixWindow from 'wix-window';
 
-const ownerIdToFind = wixUsers.currentUser.id; // Getting the current user's ID
+
+const ownerIdToFind = wixUsers.currentUser.id; 
+ //const ownerIdToFind = "1"; //test user does not exist 
 //const ownerIdToFind = "957d33e9-f0b7-4ad7-bb88-4416b1b38811"; //test user exists
 
-wixData.query("contact026") // Creating a query for the "contact026" collection, "contact026" stores the weekly form responses
-  .find() // Executing the query and retrieving the results
+wixData.query("contact026")
+  .find()
   .then((results) => {
-    const items = results.items; // Storing the items from the query results
-    const itemsWithOwnerId = items.filter(item => item._owner === ownerIdToFind); // Filtering items with matching owner ID
-    console.log(itemsWithOwnerId); // Printing the filtered items to the console
-    const sortedList = itemsWithOwnerId.sort((a, b) => parseInt(b._updatedDate) - parseInt(a._updatedDate)); // Sorting the filtered items by the '_updatedDate' property
-    const itemWithOwnerId = sortedList[0]; // Getting the first item from the sorted list (most recently updated)
-    console.log(itemWithOwnerId); // Printing the item with the matching owner ID to the console
+    const items = results.items;
+    const itemsWithOwnerId = items.filter(item => item._owner === ownerIdToFind);
+    console.log(itemsWithOwnerId)
+    const sortedList = itemsWithOwnerId.sort((a, b) => parseInt(b._updatedDate) - parseInt(a._updatedDate));
+    const itemWithOwnerId = sortedList[0];
+    console.log(itemWithOwnerId);
+        if (itemWithOwnerId) {
+      let createdDate = itemWithOwnerId._createdDate;
+      const today = new Date();
+      $w('#text11').hide();
 
-    if (itemWithOwnerId) {
-      let createdDate = itemWithOwnerId._createdDate; // Storing the '_createdDate' property of the item
-      const today = new Date(); // Creating a new Date object representing the current date
-      $w('#text11').hide(); // Hiding the element with the ID 'text11'
 
-      const sevenDaysAgo = new Date(); // Create a new date object
-      sevenDaysAgo.setDate(today.getDate() - 7); // Subtract 7 days from today's date
+      //const oneWeekAgo = new Date();
+      //oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+const sevenDaysAgo = new Date(); // Create a new date object
 
-      if (createdDate >= sevenDaysAgo) { // Checking if the created date is within the past 7 days
-        const allowedDate = new Date(createdDate);
-        allowedDate.setDate(allowedDate.getDate() + 7); // Adding 7 days to the allowed date
-        $w('#text11').text = "היי חברה, כבר מילאת את השאלון השבוע, פעם הבאה שתוכלי למלא היא: \n" + allowedDate;
+sevenDaysAgo.setDate(today.getDate() - 7); // Subtract 7 days from today's date
+      
+      if (createdDate >= sevenDaysAgo) {
+        const allowedDate = createdDate
+        allowedDate.setDate(allowedDate.getDate() + 7)
+        $w('#text11').text = "היי חברה, כבר מילאת את השאלון השבוע, הפעם הבאה שתוכלי למלא היא: \n" + allowedDate
         console.log("היי חברה, כבר מילאת את השאלון השבוע, פעם הבאה שתוכלי למלא היא :", allowedDate);
-        $w('#form14').hide(); // Hiding the element with the ID 'form14'
-        $w('#text11').show(); // Showing the element with the ID 'text11'
-      } else {
+        $w('#form14').hide();
+        $w('#text11').show();
+        let userEmail; 
+
+let user = wixUsers.currentUser;
+
+$w.onReady(async function () {
+ await user.getEmail()
+    .then( (email) => {
+        userEmail = email;     
+
+    });
+        $w('#input8').value = userEmail;
+
+});
+          } else {
         console.log("Form submission is allowed.");
-        $w('#form14').show(); // Showing the element with the ID 'form14'
+        $w('#form14').show();
       }
     } 
   })
   .catch((error) => {
-    console.log(error); // Printing an error message to the console if an error occurs
+    console.log(error);
   });
+
+
+/**
+ *	Adds an event handler that fires when a visitor submits a Wix Form and it is successfully received by the server.
+ */
+export function section1form1_wixFormSubmitted() {
+          let userEmail; 
+
+let user = wixUsers.currentUser;
+
+$w.onReady(async function () {
+ await user.getEmail()
+    .then( (email) => {
+        userEmail = email;     
+
+    });
+        $w('lig')
+        $w('#input8').value = userEmail;
+
+});
+
+
+}
