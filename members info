@@ -1,32 +1,44 @@
 import wixData from 'wix-data';
 import wixUsers from 'wix-users';
-import {session} from 'wix-storage';
+import { session } from 'wix-storage';
 
+/**
+ * Event handler triggered when a row is selected in table1.
+ * Stores the selected row's ID in the session storage.
+ * @param {Object} event - The event object.
+ */
 export function table1_rowSelect(event) {
-    let rowData = event.rowData;
-    session.setItem("id", rowData._id);
-    console.log(session.getItem("id"));
+  let rowData = event.rowData;
+  session.setItem("id", rowData._id);
+  console.log(session.getItem("id"));
 }
 
+/**
+ * Event handler triggered when button1 is clicked.
+ * Retrieves the stored ID from the session storage and performs deletion of matching items in different collections.
+ * @param {Object} event - The event object.
+ */
 export function button1_click(event) {
-let userId = session.getItem("id");
-console.log("clicked");
-const collectionNames = ['contact022', 'contact025', 'MedicalInfo', 'testEnd', 'contact026'];
+  let userId = session.getItem("id");
+  console.log("clicked");
 
-collectionNames.forEach(collectionName => {
-  wixData.query(collectionName)
-    .eq("_owner", userId)
-    .find()
-    .then((results) => {
-      const ids = [];
-      results.items.forEach(item => {
-        ids.push(item._id);
-      });
-      console.log(ids);
-      ids.forEach(id => {
+  //all databases we want to delete
+  const collectionNames = ['contact022', 'contact025', 'MedicalInfo', 'testEnd', 'contact026'];
+
+  collectionNames.forEach(collectionName => {
+    wixData.query(collectionName)
+      .eq("_owner", userId)
+      .find()
+      .then((results) => {
+        const ids = [];
+        results.items.forEach(item => {
+          ids.push(item._id);
+        });
+        console.log(ids);
+        ids.forEach(id => {
           console.log("Delete id: ", id);
-          wixData.remove(collectionName,id);
-      }); 
-    });
-    });
+          wixData.remove(collectionName, id);
+        }); 
+      });
+  });
 }
