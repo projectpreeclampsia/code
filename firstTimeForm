@@ -5,7 +5,6 @@ import {session} from 'wix-storage';
 
 
 const ownerIdToFind = wixUsers.currentUser.id; 
-//const ownerIdToFind = "fcf6c4a4-adf6-46b0-b374-d514675f04de"; //test user exists
 
 var token = 0; 
 wixData.query("contact025")
@@ -50,8 +49,6 @@ wixData.query("contact025")
  *	Adds an event handler that fires when a visitor submits a Wix Form and it is successfully received by the server.
  */
 export function section1form1_wixFormSubmitted() {
-	// This function was added from the Properties & Events panel. To learn more, visit http://wix.to/UcBnC-4
-	// Add your code for this event here: 
     
     const updatedItem = { _id:session.getItem("id"), status: 'UnStopped'};
     wixData.update("testEnd", updatedItem);
