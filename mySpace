@@ -3,6 +3,7 @@ import wixUsers from 'wix-users';
 import {session} from 'wix-storage';
 import wixLocation from 'wix-location';
 
+//all data for weeks info. 1-3 has no data
 const weeksData = [
   { week: 0, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
   { week: 1, imageUrl: "https://cdn-icons-png.flaticon.com/512/3790/3790525.png",text: ""},
@@ -48,9 +49,9 @@ const weeksData = [
   ];
   
 const ownerIdToFind = wixUsers.currentUser.id; 
-//const ownerIdToFind = "fcf6c4a4-adf6-46b0-b374-d514675f04de"; //test user
 var globalWeeks = 0;
 
+//quary to handle situation a user wants to end the use in the website
 wixData.query("testEnd")
   .find()
   .then((results) => {
