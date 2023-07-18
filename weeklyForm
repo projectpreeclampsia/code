@@ -4,8 +4,6 @@ import wixWindow from 'wix-window';
 
 
 const ownerIdToFind = wixUsers.currentUser.id; 
- //const ownerIdToFind = "1"; //test user does not exist 
-//const ownerIdToFind = "957d33e9-f0b7-4ad7-bb88-4416b1b38811"; //test user exists
 
 wixData.query("contact026")
   .find()
@@ -22,8 +20,6 @@ wixData.query("contact026")
       $w('#text11').hide();
 
 
-      //const oneWeekAgo = new Date();
-      //oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 const sevenDaysAgo = new Date(); // Create a new date object
 
 sevenDaysAgo.setDate(today.getDate() - 7); // Subtract 7 days from today's date
