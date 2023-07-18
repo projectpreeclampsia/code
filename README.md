@@ -14,7 +14,7 @@ The website is designed for pregnant women and has a few purposes:
 
 ## Usage
 
-To access the website, simply navigate to https://projectpreeclampsi.wixsite.com/preeclampsia in your web browser. The website is optimized for desktop and mobile devices. 
+To access the website, simply navigate to https://projectpreeclampsi.wixsite.com/preeclampsia in your web browser. The website is optimized for desktop. 
 link to access the editing mode: https://editor.wix.com/html/editor/web/renderer/edit/874c597f-8555-4d26-8135-c667bb889375?metaSiteId=ac7f3149-f921-4ef5-adae-26078a6d25af
 
 
