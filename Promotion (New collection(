@@ -1,0 +1,30 @@
+// this is the pop-up reminder code
+// Velo API Reference: https://www.wix.com/velo/reference/api-overview/introduction
+import wixUsers from 'wix-users';
+
+$w.onReady(function () {
+        let userEmail; 
+
+let user = wixUsers.currentUser;
+
+$w.onReady(async function () {
+ await user.getEmail()
+    .then( (email) => {
+        userEmail = email;     
+
+    });
+        $w('#input1').value = userEmail;
+
+});
+
+	// Write your Javascript code here using the Velo framework API
+
+	// Print hello world:
+	// console.log("Hello world!");
+
+	// Call functions on page elements, e.g.:
+	// $w("#button1").label = "Click me!";
+
+	// Click "Run", or Preview your site, to execute your code
+
+});
